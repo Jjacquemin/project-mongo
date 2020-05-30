@@ -16,6 +16,12 @@ const UserSchema = new Schema({
   books: [BookSchema]
 })
 
+//Ajout colonne virtuelle pour nombre de livres dans l'attribut books, 
+//on n'utilise pas de fonction fléchée à cause du this
+UserSchema.virtual('countBooks').get(function() {
+  return this.books.length
+})
+
 //Création d'un model de Book basé sur le Schema précédemment défini.
 const User = mongoose.model('user', UserSchema)
 
