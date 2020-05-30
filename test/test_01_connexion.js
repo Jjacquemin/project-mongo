@@ -8,7 +8,8 @@ before('Lancement de la connexion',done => {
   // Définition de la connexion à la base MongoDB
   mongoose.connect('mongodb://localhost/books_test',{
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   })
 
   // Connexion à la base MongoDB
