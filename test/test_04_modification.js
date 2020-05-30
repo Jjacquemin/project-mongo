@@ -14,10 +14,10 @@ describe('Modification de livre', () => {
   function assertTitle(operation, done) {
     operation
       .then(() => Book.find({}))
-      .then((books) => {
-        assert(books.length === 1);
-        assert(books[0].title === newTitle);
-        done();
+      .then(books => {
+        assert(books.length === 1)
+        assert(books[0].title === newTitle)
+        done()
       })
   }
 
