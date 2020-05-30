@@ -42,4 +42,13 @@ describe('Modification de livre', () => {
     assertTitle(Book.findByIdAndUpdate(book1._id, { title: newTitle}), done)
   })
 
+  it('Incrémente le nombre de pages', done => {
+    Book.updateMany({ title: book1.title }, { $inc: { totalPages: 3 } })
+    .then( () => Book.findOne({ title: book1.title }))
+    .then( book => {
+            assert(book.totalPages === 3)
+            done()
+    })
+  })
+
 })
