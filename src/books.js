@@ -13,7 +13,11 @@ const BookSchema = new Schema({
   },
   totalPages: { 
     type: Number,
-    default: 0 
+    default: 0,
+    validate: {
+       validator: totalPages => totalPages < 3000,
+       message: 'Un livre doit avoir moins de 3000 pages'
+    }
   }
 })
 
