@@ -8,12 +8,17 @@ const Schema = mongoose.Schema
 
 //Instantiation d'un schema UserSchema constitué d'un nom obligatoire de type String 
 //et d'un tableau de schema de livres
+// et d'un tableau d'Id de blogBook
 const UserSchema = new Schema({
   name: {
     type: String,
     required: [true, 'Le nom est requis']
   },
-  books: [BookSchema]
+  books: [BookSchema],
+  blogBooks: [{
+    type: Schema.Types.ObjectId, 
+    ref: 'blogBook'
+  }]
 })
 
 //Ajout colonne virtuelle pour nombre de livres dans l'attribut books, 
@@ -22,7 +27,7 @@ UserSchema.virtual('countBooks').get(function() {
   return this.books.length
 })
 
-//Création d'un model de Book basé sur le Schema précédemment défini.
+//Création d'un model de User basé sur le Schema précédemment défini.
 const User = mongoose.model('user', UserSchema)
 
 //Export du model User pour pouvoir y accéder de l'exterieur.
