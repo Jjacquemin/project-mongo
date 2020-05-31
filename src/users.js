@@ -2,6 +2,7 @@
 const mongoose = require('mongoose')
 // Import du Schéma de livre pour pouvoir impléter un tableau de livres dans le Schéma d'user
 const BookSchema = require('./books').schema
+const BlogBook = require('../src/blogBooks');
 
 //Référencement de la classe Schema de mongoose.
 const Schema = mongoose.Schema
@@ -25,6 +26,16 @@ const UserSchema = new Schema({
 //on n'utilise pas de fonction fléchée à cause du this
 UserSchema.virtual('countBooks').get(function() {
   return this.books.length
+})
+
+//Ajout d'un middleware pre-deleteOne car on veut supprimer tout les livres référencés dans le tableau d'Id avant de supprimer le user
+//Pas de fonction fléchée à cause du this
+UserSchema.pre('remove', function(next) {
+  // Supprime les BlogBook dont l'ID est DANS this.blogBooks ( les blogBooks de l'utilisateur )
+  BlogBook.deleteMany({ _id: { $in: this.blogBooks } })
+    .then(() => {
+      next()
+    })  
 })
 
 //Création d'un model de User basé sur le Schema précédemment défini.

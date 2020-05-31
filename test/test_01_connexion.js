@@ -21,7 +21,9 @@ before('Lancement de la connexion',done => {
     .on('error',error => console.warn('Erreurs : ',error)) // connexion en erreur
 })
 
-beforeEach('Supprime les anciens livres et utilisateurs avant chaque tests', done => {
-  const { books, users } = mongoose.connection.collections;
-  books.drop(() => users.drop(() => done()))
+beforeEach('Supprime la base de données entière', done => {
+  mongoose.connection.db.dropDatabase()
+    .then( () => {
+      done()
+    })
 })
